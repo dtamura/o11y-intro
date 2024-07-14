@@ -2,7 +2,6 @@
 
 import Footer from "../components/footer";
 import { Inter } from "next/font/google";
-import { initFaro } from "../utils/faro";
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { styled, createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
@@ -82,7 +81,6 @@ const defaultTheme = createTheme();
 
 if (typeof window !== "undefined") {
   // Client-side-only code
-  initFaro();
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

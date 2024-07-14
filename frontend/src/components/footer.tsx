@@ -1,6 +1,6 @@
 export default function Footer() {
 
   return (<>
-    <p>Footer</p>
+    <p>Daiki Tamura</p>
   </>);
 }

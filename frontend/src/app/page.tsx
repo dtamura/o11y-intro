@@ -5,7 +5,6 @@ import Typography from "@mui/material/Typography";
 
 import Greeting from "../components/greeting";
 import Ping from "../components/ping";
-import Link from "next/link";
 
 export default function Home() {
   return (
