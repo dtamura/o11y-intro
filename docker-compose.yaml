@@ -1,0 +1,240 @@
+x-default-logging: &logging
+  # driver: "json-file"
+  # options:
+  #   max-size: "5m"
+  #   max-file: "2"
+  driver: loki
+  options:
+    loki-url: http://127.0.0.1:3100/loki/api/v1/push
+
+services:
+  #######################
+  # Prometheus
+  #######################
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    command:
+      - --web.console.templates=/etc/prometheus/consoles
+      - --web.console.libraries=/etc/prometheus/console_libraries
+      - --web.enable-remote-write-receiver # tempoからのremote-write受信のため
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+      - --web.route-prefix=/
+      - "--enable-feature=exemplar-storage" # examplar の保存
+    volumes:
+      - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
+    logging: *logging
+    depends_on:
+      - loki
+    restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    logging: *logging
+    depends_on:
+      - loki
+    restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.rootfs=/rootfs"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+    expose:
+      - 9100
+    logging: *logging
+    depends_on:
+      - loki
+
+  process-exporter:
+    image: ncabatoff/process-exporter:latest
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - ./config/process-exporter.yml:/config/config.yml
+    command:
+      - "--procfs=/host/proc"
+      - "-config.path=/config/config.yml"
+    ports:
+      - 9256
+    depends_on:
+      - loki
+    logging: *logging
+
+  ########################
+  # Loki
+  ########################
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/config.yaml
+    volumes:
+      - loki-data:/data/loki
+      - ./config/loki.yaml:/etc/loki/config.yaml
+    restart: unless-stopped
+
+  grafana:
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./config/grafana.ini:/etc/grafana/grafana.ini
+      - ./provisioning/:/etc/grafana/provisioning/
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    logging: *logging
+    depends_on:
+      - loki
+    restart: unless-stopped
+
+  alloy:
+    image: grafana/alloy:latest
+    volumes:
+      - ./config/config.alloy:/etc/alloy/config.alloy
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - loki
+      - prometheus
+      - tempo
+      - pyroscope
+    privileged: true # for BPF
+    pid: host # for BPF
+    ports:
+      - 12345:12345
+      - 8027:8027
+    command:
+      - run
+      - /etc/alloy/config.alloy
+      - --storage.path=/var/lib/alloy/data
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --stability.level=public-preview # Enable public preview
+    logging: *logging
+    restart: unless-stopped
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - "8025:8025"
+    logging: *logging
+    depends_on:
+      - loki
+
+  ###################
+  # Tempo
+  ##################
+  tempo-init:
+    image: &tempoImage grafana/tempo:latest
+    user: root
+    entrypoint:
+      - "chown"
+      - "10001:10001"
+      - "/var/tempo"
+    volumes:
+      - tempo-data:/var/tempo
+    depends_on:
+      - loki
+  tempo:
+    image: *tempoImage
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./config/tempo.yaml:/etc/tempo.yaml
+      - tempo-data:/var/tempo
+    ports:
+      - "3200" # tempo
+      - "4317" # otlp grpc
+      - "4318" # otlp http
+    logging: *logging
+    depends_on:
+      - tempo-init
+      - loki
+    restart: unless-stopped
+
+  #####################
+  # Pyroscope
+  #####################
+  pyroscope:
+    image: grafana/pyroscope:latest
+    ports:
+      - 4040:4040
+    logging: *logging
+
+  ####################
+  # OTEL
+  ##################
+
+  # And put them in an OTEL collector pipeline...
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.104.0
+    command:
+      - "--config=/etc/otelcol-config.yml"
+    volumes:
+      - ./config/otelcol-config.yml:/etc/otelcol-config.yml
+    ports:
+      - "4317" # OTLP over gRPC receiver
+      - "4318" # OTLP over HTTP receiver
+      - "9464" # Prometheus exporter
+      - "8888" # metrics endpoint
+    depends_on:
+      - loki
+    logging: *logging
+    restart: unless-stopped
+
+  ######
+  ## App
+  #######
+  frontend:
+    build: ./frontend
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+    ports:
+      - 8080
+    logging: *logging
+
+  java-demo-app:
+    build: ./java-demo-app
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+    ports:
+      - 8081:8081
+    logging: *logging
+    depends_on:
+      - loki
+
+  envoyproxy:
+    build: ./frontendproxy
+    environment:
+      - OTEL_COLLECTOR_HOST=otel-collector
+      - OTEL_COLLECTOR_PORT_GRPC=4317
+      - OTEL_COLLECTOR_PORT_HTTP=4318
+    ports:
+      - 8080:8080
+    logging: *logging
+    depends_on:
+      - loki
+
+volumes:
+  grafana-data:
+  loki-data:
+  tempo-data:

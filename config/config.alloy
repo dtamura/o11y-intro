@@ -1,0 +1,60 @@
+prometheus.remote_write "default" {
+    endpoint {
+        url = "http://prometheus:9090/api/v1/write"
+
+        headers = {
+            "X-Scope-OrgID" = "demo",
+        }
+    }
+}
+faro.receiver "default" {
+    extra_log_labels = {
+        app = "grafana-demo",
+    }
+    sourcemaps {
+        download = true
+    }
+    server {
+        listen_address = "0.0.0.0"
+        listen_port = 8027
+        api_key = "supersecret"
+        cors_allowed_origins = ["*"]
+    }
+    output {
+        traces = [otelcol.exporter.otlp.traces.input]
+        logs = [loki.write.default.receiver]
+    }
+}
+otelcol.exporter.otlp "traces" {
+    client {
+        endpoint = "tempo:4317"
+        tls {
+            insecure = true
+        }
+    }
+}
+loki.write "default" {
+    endpoint {
+        url = "http://loki:3100/loki/api/v1/push"
+    }
+}
+discovery.docker "linux" {
+    host = "unix:///var/run/docker.sock"
+}
+discovery.relabel "local_containers" {
+    targets = discovery.docker.linux.targets
+    rule {
+        action = "replace"
+        source_labels = ["__meata_docker_container_name"]
+        target_label = "service_name"
+    }
+}
+pyroscope.ebpf "instance" {
+    forward_to = [pyroscope.write.endpoint.receiver]
+    targets = discovery.relabel.local_containers.output
+}
+pyroscope.write "endpoint" {
+    endpoint {
+        url = "http://pyroscope:4040"
+    }
+}
