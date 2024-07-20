@@ -204,6 +204,7 @@ services:
   ## App
   #######
   frontend:
+    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/frontend:latest
     build: ./frontend
     environment:
       - NODE_ENV=production
@@ -213,6 +214,7 @@ services:
     logging: *logging
 
   java-demo-app:
+    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/java-demo-app:latest
     build: ./java-demo-app
     environment:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
@@ -223,6 +225,7 @@ services:
       - loki
 
   envoyproxy:
+    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/envoyproxy:latest
     build: ./frontendproxy
     environment:
       - OTEL_COLLECTOR_HOST=otel-collector
