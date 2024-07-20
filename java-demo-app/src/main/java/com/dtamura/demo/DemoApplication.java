@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 
-	// TODO (Trace) OpenTelemetry初期化コードの追加
+    // TODO (Trace) OpenTelemetry初期化コードの追加
 
-	// ここまで
+    // ここまで
 
 }
