@@ -50,16 +50,12 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      # receivers: [otlpjsonfile/traces]
       processors: [batch]
       exporters: [spanmetrics, otlp/tempo]
-      # exporters: [otlp/tempo, awss3, file/traces]
     metrics:
       receivers: [otlp, spanmetrics]
-      # receivers: [otlpjsonfile/metrics]
       processors: [filter, batch]
       exporters: [prometheusremotewrite]
-
     logs:
       receivers: [otlp]
       processors: [batch]
