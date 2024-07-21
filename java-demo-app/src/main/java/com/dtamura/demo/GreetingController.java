@@ -37,6 +37,8 @@ public class GreetingController {
       // TODO (Trace) スパンの終了コードを追加
 
       logger.info("end greeting");
+
+      // TODO (Trace) GreetingオブジェクトにTraceIdを渡す
       return new Greeting(counter.incrementAndGet(), String.format(template, name), "");
    }
 
