@@ -29,44 +29,44 @@ import io.opentelemetry.semconv.ResourceAttributes;
 @RestController
 public class DemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 
-	@Bean
-	public OpenTelemetry openTelemetry() {
+    @Bean
+    public OpenTelemetry openTelemetry() {
 
-		Resource resource = Resource.getDefault().toBuilder()
-				.put(ResourceAttributes.SERVICE_NAME, DemoApplication.class.getName())
-				.put(ResourceAttributes.SERVICE_VERSION, "0.1.0").build();
+        Resource resource = Resource.getDefault().toBuilder()
+                .put(ResourceAttributes.SERVICE_NAME, DemoApplication.class.getName())
+                .put(ResourceAttributes.SERVICE_VERSION, "0.1.0").build();
 
-		OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder().setEndpoint(System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT"))
-				.build();
+        OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder().setEndpoint(System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT"))
+                .build();
 
-		SdkTracerProvider sdkTracerProvider = SdkTracerProvider.builder()
-				.addSpanProcessor(SimpleSpanProcessor.create(LoggingSpanExporter.create())) // ログに残す
-				.addSpanProcessor(BatchSpanProcessor.builder(spanExporter).build()) // Collectorに送る
-				.setResource(resource)
-				.build();
+        SdkTracerProvider sdkTracerProvider = SdkTracerProvider.builder()
+                .addSpanProcessor(SimpleSpanProcessor.create(LoggingSpanExporter.create())) // ログに残す
+                .addSpanProcessor(BatchSpanProcessor.builder(spanExporter).build()) // Collectorに送る
+                .setResource(resource)
+                .build();
 
-		SdkMeterProvider sdkMeterProvider = SdkMeterProvider.builder()
-				.registerMetricReader(PeriodicMetricReader.builder(LoggingMetricExporter.create()).build())
-				.setResource(resource)
-				.build();
+        SdkMeterProvider sdkMeterProvider = SdkMeterProvider.builder()
+                .registerMetricReader(PeriodicMetricReader.builder(LoggingMetricExporter.create()).build())
+                .setResource(resource)
+                .build();
 
-		SdkLoggerProvider sdkLoggerProvider = SdkLoggerProvider.builder()
-				.addLogRecordProcessor(BatchLogRecordProcessor.builder(SystemOutLogRecordExporter.create()).build())
-				.setResource(resource)
-				.build();
+        SdkLoggerProvider sdkLoggerProvider = SdkLoggerProvider.builder()
+                .addLogRecordProcessor(BatchLogRecordProcessor.builder(SystemOutLogRecordExporter.create()).build())
+                .setResource(resource)
+                .build();
 
-		OpenTelemetry openTelemetry = OpenTelemetrySdk.builder()
-				.setTracerProvider(sdkTracerProvider)
-				.setMeterProvider(sdkMeterProvider)
-				.setLoggerProvider(sdkLoggerProvider)
-				.setPropagators(ContextPropagators.create(TextMapPropagator
-						.composite(W3CTraceContextPropagator.getInstance(), W3CBaggagePropagator.getInstance())))
-				.build();
+        OpenTelemetry openTelemetry = OpenTelemetrySdk.builder()
+                .setTracerProvider(sdkTracerProvider)
+                .setMeterProvider(sdkMeterProvider)
+                .setLoggerProvider(sdkLoggerProvider)
+                .setPropagators(ContextPropagators.create(TextMapPropagator
+                        .composite(W3CTraceContextPropagator.getInstance(), W3CBaggagePropagator.getInstance())))
+                .build();
 
-		return openTelemetry;
-	}
+        return openTelemetry;
+    }
 }

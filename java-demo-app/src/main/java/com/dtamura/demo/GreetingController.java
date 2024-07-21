@@ -26,85 +26,86 @@ import io.opentelemetry.context.propagation.TextMapGetter;
 @RestController
 public class GreetingController {
 
-   private static final String template = "Hello, %s!";
-   private final AtomicLong counter = new AtomicLong();
+    private static final String template = "Hello, %s!";
+    private final AtomicLong counter = new AtomicLong();
 
-   private final Tracer tracer;
-   private final Meter meter;
-   private final LongCounter longCounter;
-   private OpenTelemetry openTelemetry;
+    private final Tracer tracer;
+    private final Meter meter;
+    private final LongCounter longCounter;
+    private OpenTelemetry openTelemetry;
 
-   private Logger logger = LogManager.getLogger(GreetingController.class.getName());
-   private final TextMapGetter<HttpHeaders> getter = new TextMapGetter<HttpHeaders>() {
-      @Override
-      public String get(HttpHeaders headers, String s) {
-         assert headers != null;
-         List<String> list = headers.get(s);
-         if (list != null) {
-            return list.get(0);
-         }
-         return null;
-      }
+    private Logger logger = LogManager.getLogger(GreetingController.class.getName());
+    private final TextMapGetter<HttpHeaders> getter = new TextMapGetter<HttpHeaders>() {
+        @Override
+        public String get(HttpHeaders headers, String s) {
+            assert headers != null;
+            List<String> list = headers.get(s);
+            if (list != null) {
+                return list.get(0);
+            }
+            return null;
+        }
 
-      @Override
-      public Iterable<String> keys(HttpHeaders headers) {
-         List<String> keys = new ArrayList<>();
-         headers.forEach((k, v) -> {
-            keys.add(k);
-         });
-         return keys;
-      }
-   };
+        @Override
+        public Iterable<String> keys(HttpHeaders headers) {
+            List<String> keys = new ArrayList<>();
+            headers.forEach((k, v) -> {
+                keys.add(k);
+            });
+            return keys;
+        }
+    };
 
-   public GreetingController(OpenTelemetry openTelemetry) {
-      this.openTelemetry = openTelemetry;
-      this.tracer = openTelemetry.getTracer(GreetingController.class.getName(), "0.1.0");
-      // メトリクスの設定
-      this.meter = openTelemetry.getMeterProvider().get(GreetingController.class.getName());
-      this.longCounter = meter.counterBuilder("greeting_requests")
-                     .setDescription("Total number of greeting requests")
-                     .setUnit("1")
-                     .build();
-   }
+    public GreetingController(OpenTelemetry openTelemetry) {
+        this.openTelemetry = openTelemetry;
+        this.tracer = openTelemetry.getTracer(GreetingController.class.getName(), "0.1.0");
+        // メトリクスの設定
+        this.meter = openTelemetry.getMeterProvider().get(GreetingController.class.getName());
+        this.longCounter = meter.counterBuilder("greeting_requests")
+                .setDescription("Total number of greeting requests")
+                .setUnit("1")
+                .build();
+    }
 
-   @GetMapping("/greeting")
-   public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name,
-         @RequestHeader HttpHeaders headers) {
+    @GetMapping("/greeting")
+    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name,
+            @RequestHeader HttpHeaders headers) {
 
-      logger.info("start greeting");
+        logger.info("start greeting");
 
-      Context extractedContext = this.openTelemetry.getPropagators().getTextMapPropagator()
-            .extract(Context.current(), headers, this.getter);
+        Context extractedContext = this.openTelemetry.getPropagators().getTextMapPropagator()
+                .extract(Context.current(), headers, this.getter);
 
-      Span span = tracer.spanBuilder("greeting").setSpanKind(SpanKind.SERVER)
-            .setParent(extractedContext).startSpan();
-      try (Scope scope = span.makeCurrent()) {
-         // span
-         hoge();
-         span.setAttribute(io.opentelemetry.semconv.SemanticAttributes.HTTP_RESPONSE_STATUS_CODE, 200);
-         span.setAttribute(io.opentelemetry.semconv.SemanticAttributes.HTTP_REQUEST_METHOD, "GET");
-         span.setStatus(StatusCode.OK);
+        Span span = tracer.spanBuilder("greeting").setSpanKind(SpanKind.SERVER)
+                .setParent(extractedContext).startSpan();
+        try (Scope scope = span.makeCurrent()) {
+            // span
+            hoge();
+            span.setAttribute(io.opentelemetry.semconv.SemanticAttributes.HTTP_RESPONSE_STATUS_CODE, 200);
+            span.setAttribute(io.opentelemetry.semconv.SemanticAttributes.HTTP_REQUEST_METHOD, "GET");
+            span.setStatus(StatusCode.OK);
 
-      } finally {
-         span.end();
-      }
+        } finally {
+            span.end();
+        }
 
-      // カウンターを増やす
-      longCounter.add(1);
+        // カウンターを増やす
+        longCounter.add(1);
 
-      logger.info("end greeting");
-      return new Greeting(counter.incrementAndGet(), String.format(template, name), span.getSpanContext().getTraceId());
-   }
+        logger.info("end greeting");
+        return new Greeting(counter.incrementAndGet(), String.format(template, name),
+                span.getSpanContext().getTraceId());
+    }
 
-   public void hoge() {
-      // logger.info("start hoge");
-      Span span = tracer.spanBuilder("hoge").startSpan();
-      try (Scope scope = span.makeCurrent()) {
-         logger.info("hoge");
-      } finally {
-         span.end();
-      }
+    public void hoge() {
+        // logger.info("start hoge");
+        Span span = tracer.spanBuilder("hoge").startSpan();
+        try (Scope scope = span.makeCurrent()) {
+            logger.info("hoge");
+        } finally {
+            span.end();
+        }
 
-      logger.info("end hoge");
-   }
+        logger.info("end hoge");
+    }
 }
