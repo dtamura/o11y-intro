@@ -226,7 +226,7 @@ services:
 
   envoyproxy:
     image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/envoyproxy:latest
-    build: ./frontendproxy
+    build: ./envoyproxy
     environment:
       - OTEL_COLLECTOR_HOST=otel-collector
       - OTEL_COLLECTOR_PORT_GRPC=4317
