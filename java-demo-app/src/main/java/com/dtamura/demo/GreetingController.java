@@ -44,7 +44,9 @@ public class GreetingController {
 
     public void hoge() {
         // TODO (Trace) スパンの開始コードを追加
+
         logger.info("hoge");
         // TODO (Trace) スパンの終了コードを追加
+
     }
 }
