@@ -8,10 +8,47 @@ x-default-logging: &logging
     loki-url: http://127.0.0.1:3100/loki/api/v1/push
 
 services:
+  ######
+  ## App
+  #######
+  java-demo-app:
+    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/java-demo-app:latest
+    build: ./java-demo-app
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+    ports:
+      - 8081:8081
+    logging: *logging
+    depends_on:
+      - loki
+
+  frontend:
+    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/frontend:latest
+    build: ./frontend
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+    ports:
+      - 8080
+    logging: *logging
+
+  envoyproxy:
+    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/envoyproxy:latest
+    build: ./envoyproxy
+    environment:
+      - OTEL_COLLECTOR_HOST=otel-collector
+      - OTEL_COLLECTOR_PORT_GRPC=4317
+      - OTEL_COLLECTOR_PORT_HTTP=4318
+    ports:
+      - 8080:8080
+    logging: *logging
+    depends_on:
+      - loki
+
   #######################
   # Prometheus
   #######################
-
   prometheus:
     image: prom/prometheus:latest
     ports:
@@ -199,44 +236,6 @@ services:
       - loki
     logging: *logging
     restart: unless-stopped
-
-  ######
-  ## App
-  #######
-  frontend:
-    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/frontend:latest
-    build: ./frontend
-    environment:
-      - NODE_ENV=production
-      - PORT=8080
-    ports:
-      - 8080
-    logging: *logging
-
-  java-demo-app:
-    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/java-demo-app:latest
-    build: ./java-demo-app
-    environment:
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
-      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
-    ports:
-      - 8081:8081
-    logging: *logging
-    depends_on:
-      - loki
-
-  envoyproxy:
-    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/envoyproxy:latest
-    build: ./envoyproxy
-    environment:
-      - OTEL_COLLECTOR_HOST=otel-collector
-      - OTEL_COLLECTOR_PORT_GRPC=4317
-      - OTEL_COLLECTOR_PORT_HTTP=4318
-    ports:
-      - 8080:8080
-    logging: *logging
-    depends_on:
-      - loki
 
 volumes:
   grafana-data:
