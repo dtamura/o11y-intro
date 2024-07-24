@@ -25,6 +25,13 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-core");
 
     // TODO こちらに追加する
+    implementation(platform("io.opentelemetry:opentelemetry-bom:1.37.0"));
+    implementation("io.opentelemetry:opentelemetry-api");
+    implementation("io.opentelemetry:opentelemetry-api-logs:1.26.0-alpha");
+    implementation("io.opentelemetry:opentelemetry-sdk");
+    implementation("io.opentelemetry:opentelemetry-exporter-otlp");
+    implementation("io.opentelemetry:opentelemetry-exporter-logging");
+    implementation("io.opentelemetry.semconv:opentelemetry-semconv:1.26.0-alpha");
 
     // ここまで
 
