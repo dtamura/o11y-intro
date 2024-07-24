@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 // TODO (Trace) import文を追加ここから
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import io.opentelemetry.instrumentation.annotations.SpanAttribute;
-
+import io.opentelemetry.api.trace.Span;
 // ここまで
 
 @RestController
@@ -32,8 +32,8 @@ public class GreetingController {
     @GetMapping("/greeting")
     public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") @SpanAttribute("name") String name) {
 
-        // TODO (Trace) スパンの開始コードを追加
-
+        // TODO (Trace) スパンの参照コードを追加
+        Span span = Span.current();
         logger.info("start greeting");
 
         hoge();
@@ -42,7 +42,7 @@ public class GreetingController {
         logger.info("end greeting");
 
         // TODO (Trace) GreetingオブジェクトにTraceIdを渡す
-        return new Greeting(counter.incrementAndGet(), String.format(template, name), "");
+        return new Greeting(counter.incrementAndGet(), String.format(template, name), span.getSpanContext().getTraceId());
     }
 
     @WithSpan
