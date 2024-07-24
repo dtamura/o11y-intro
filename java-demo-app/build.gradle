@@ -25,6 +25,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-core");
 
     // TODO こちらに追加する
+    implementation('io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:2.6.0');
 
     // ここまで
 
