@@ -22,14 +22,11 @@
     ]
   },
   "description": "Spanmetrics way of demo application view.",
-  "author": {
-    "name": "devrimdemiroz"
-    },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 11,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
@@ -47,7 +44,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -93,6 +90,8 @@
       "id": 2,
       "interval": "5m",
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -102,14 +101,15 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -125,7 +125,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -140,7 +140,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -154,7 +154,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -172,7 +172,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -216,8 +216,16 @@
       "interval": "5m",
       "options": {
         "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -227,14 +235,16 @@
           "values": false
         },
         "showUnfilled": true,
-        "text": {}
+        "sizing": "auto",
+        "text": {},
+        "valueMode": "color"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -248,13 +258,12 @@
         }
       ],
       "title": "Top 7 Services Mean Rate over Range",
-      "transformations": [],
       "type": "bargauge"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -294,8 +303,16 @@
       "interval": "5m",
       "options": {
         "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
@@ -305,14 +322,16 @@
           "values": false
         },
         "showUnfilled": true,
-        "text": {}
+        "sizing": "auto",
+        "text": {},
+        "valueMode": "color"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -325,15 +344,10 @@
         }
       ],
       "title": "Top 7 Services Mean ERROR Rate over Range",
-      "transformations": [],
       "type": "bargauge"
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "mimir"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -342,22 +356,13 @@
       },
       "id": 14,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "mimir"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "span_names Level - Throughput",
       "type": "row"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -367,7 +372,9 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
             "inspect": false
           },
           "decimals": 2,
@@ -395,8 +402,11 @@
             },
             "properties": [
               {
-                "id": "custom.displayMode",
-                "value": "lcd-gauge"
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "lcd",
+                  "type": "gauge"
+                }
               },
               {
                 "id": "color",
@@ -413,8 +423,11 @@
             },
             "properties": [
               {
-                "id": "custom.displayMode",
-                "value": "lcd-gauge"
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "lcd",
+                  "type": "gauge"
+                }
               },
               {
                 "id": "color",
@@ -455,8 +468,7 @@
             },
             "properties": [
               {
-                "id": "custom.width",
-                "value": null
+                "id": "custom.width"
               }
             ]
           }
@@ -471,7 +483,9 @@
       "id": 22,
       "interval": "5m",
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "fields": "",
           "reducer": [
             "sum"
@@ -481,12 +495,12 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "exemplar": false,
           "expr": "topk(7, sum(rate(calls_total{service_name=~\"$service\", span_name=~\"$span_name\"}[$__range])) by (span_name,service_name)) ",
@@ -499,7 +513,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "exemplar": false,
           "expr": "topk(7, sum(rate(calls_total{status_code=\"STATUS_CODE_ERROR\",service_name=~\"$service\", span_name=~\"$span_name\"}[$__range])) by (span_name,service_name))",
@@ -603,10 +617,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "mimir"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -615,22 +625,13 @@
       },
       "id": 20,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "mimir"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "span_name Level - Latencies",
       "type": "row"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -642,8 +643,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
-                "value": null
+                "color": "blue"
               },
               {
                 "color": "green",
@@ -692,7 +692,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -708,7 +708,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -723,7 +723,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -737,7 +737,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -755,7 +755,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -768,8 +768,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -808,7 +807,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -821,13 +820,12 @@
         }
       ],
       "title": "Top 7 Highest Endpoint Latencies  Mean Over Range ",
-      "transformations": [],
       "type": "bargauge"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -869,8 +867,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -912,7 +909,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -928,25 +925,23 @@
       "type": "timeseries"
     }
   ],
+  "preload": false,
   "refresh": "5m",
-  "schemaVersion": 37,
-  "style": "dark",
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
         "allValue": ".*",
         "current": {
-          "selected": false,
           "text": "All",
           "value": "$__all"
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "mimir"
+          "uid": "prometheus"
         },
         "definition": "query_result(count by (service_name)(count_over_time(calls_total[$__range])))",
-        "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "service",
@@ -957,23 +952,20 @@
         },
         "refresh": 2,
         "regex": "/.*service_name=\"(.*)\".*/",
-        "skipUrlSync": false,
         "sort": 1,
         "type": "query"
       },
       {
         "allValue": ".*",
         "current": {
-          "selected": false,
           "text": "All",
           "value": "$__all"
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "mimir"
+          "uid": "prometheus"
         },
         "definition": "query_result(sum ({__name__=~\".*calls_total\",service_name=~\"$service\"})  by (span_name))",
-        "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "span_name",
@@ -984,8 +976,6 @@
         },
         "refresh": 2,
         "regex": "/.*span_name=\"(.*)\".*/",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       }
     ]

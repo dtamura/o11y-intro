@@ -20,22 +20,18 @@ exporters:
     endpoint: "tempo:4317"
     tls:
       insecure: true
-  prometheusremotewrite:
-    endpoint: http://prometheus:9090/api/v1/write
-    tls:
-      insecure: true
-    send_metadata: true
-    resource_to_telemetry_conversion:
-      enabled: true
+
+  otlphttp/prometheus:
+      endpoint: "http://prometheus:9090/api/v1/otlp"
+      tls:
+        insecure: true
 
 processors:
   batch:
-  filter:
-    metrics:
-      exclude:
-        match_type: strict
-        metric_names:
-          - queueSize
+
+  resourcedetection:
+    detectors: [env,docker]
+    timeout: 10s
 
 connectors:
   spanmetrics:
@@ -43,20 +39,23 @@ connectors:
       enabled: true
       max_per_data_point: 10000
 
+
 service:
   telemetry:
     logs:
       level: INFO
+    metrics:
+      address: 0.0.0.0:8888
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [batch]
+      processors: [batch, resourcedetection]
       exporters: [spanmetrics, otlp/tempo]
     metrics:
       receivers: [otlp, spanmetrics]
-      processors: [filter, batch]
-      exporters: [prometheusremotewrite]
+      processors: [batch, resourcedetection]
+      exporters: [otlphttp/prometheus]
     logs:
       receivers: [otlp]
-      processors: [batch]
+      processors: [batch, resourcedetection]
       exporters: [debug]

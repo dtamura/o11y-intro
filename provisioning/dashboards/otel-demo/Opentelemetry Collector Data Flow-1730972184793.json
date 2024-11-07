@@ -25,9 +25,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 6,
+  "id": 9,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
@@ -82,6 +81,7 @@
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -89,9 +89,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -145,6 +147,8 @@
       },
       "id": 24,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -154,9 +158,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -210,6 +215,8 @@
       },
       "id": 38,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -219,9 +226,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -239,11 +247,11 @@
       "type": "gauge"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 4,
         "w": 15,
@@ -260,7 +268,8 @@
         "content": "## Opentelemetry Collector Data Ingress/Egress\n\n`service_version:` ${service_version}\n\n`opentelemetry collector:` contrib\n\n",
         "mode": "markdown"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
+      "title": "",
       "type": "text"
     },
     {
@@ -330,6 +339,8 @@
       },
       "id": 55,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
@@ -339,9 +350,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": false
+        "showThresholdMarkers": false,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -385,13 +397,16 @@
         }
       ],
       "title": "Export Ratio",
-      "transformations": [],
       "type": "gauge"
     },
     {
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 11,
@@ -401,10 +416,12 @@
       },
       "id": 4,
       "options": {
+        "edges": {},
         "nodes": {
           "mainStatUnit": "flops"
         }
       },
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -436,7 +453,7 @@
           "refId": "edges"
         }
       ],
-      "transformations": [],
+      "title": "",
       "type": "nodeGraph"
     },
     {
@@ -477,6 +494,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -484,9 +502,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -535,6 +555,8 @@
       },
       "id": 13,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -544,9 +566,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -604,6 +627,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -611,10 +635,12 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {},
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -662,6 +688,8 @@
       },
       "id": 14,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -671,9 +699,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -730,6 +759,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -737,9 +767,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -796,6 +828,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -803,9 +836,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -854,6 +889,8 @@
       },
       "id": 18,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -863,9 +900,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -914,6 +952,8 @@
       },
       "id": 19,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -923,9 +963,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -982,6 +1023,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -989,9 +1031,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1078,6 +1122,8 @@
       },
       "id": 54,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
@@ -1087,9 +1133,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": false
+        "showThresholdMarkers": false,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1177,6 +1224,10 @@
         "uid": "prometheus"
       },
       "description": "Metrics Signalling Pipelines",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 11,
         "w": 21,
@@ -1185,10 +1236,12 @@
       },
       "id": 25,
       "options": {
+        "edges": {},
         "nodes": {
           "mainStatUnit": "flops"
         }
       },
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1220,7 +1273,7 @@
           "refId": "edges"
         }
       ],
-      "transformations": [],
+      "title": "",
       "type": "nodeGraph"
     },
     {
@@ -1261,6 +1314,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1268,9 +1322,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1319,6 +1375,8 @@
       },
       "id": 27,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -1328,9 +1386,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1387,6 +1446,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1394,10 +1454,12 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {},
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1446,6 +1508,8 @@
       },
       "id": 29,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -1455,9 +1519,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1514,6 +1579,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1521,9 +1587,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1580,6 +1648,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1587,9 +1656,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1638,6 +1709,8 @@
       },
       "id": 48,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -1647,9 +1720,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1698,6 +1772,8 @@
       },
       "id": 49,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -1707,9 +1783,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1734,7 +1811,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "Sent by Exporter\notelcol_exporter_send_failed_spans",
+      "description": "Sent by Exporter\notelcol_exporter_send_failed_metric_points",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1766,6 +1843,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1773,9 +1851,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1862,6 +1942,8 @@
       },
       "id": 53,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
@@ -1871,9 +1953,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": false
+        "showThresholdMarkers": false,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1978,6 +2061,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1985,9 +2069,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name"
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -2043,6 +2129,8 @@
       },
       "id": 42,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -2052,9 +2140,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -2095,6 +2184,10 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 9,
         "w": 8,
@@ -2102,7 +2195,11 @@
         "y": 46
       },
       "id": 41,
-      "pluginVersion": "9.1.0",
+      "options": {
+        "edges": {},
+        "nodes": {}
+      },
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -2135,6 +2232,7 @@
           "refId": "edges"
         }
       ],
+      "title": "",
       "transformations": [
         {
           "id": "organize",
@@ -2150,11 +2248,11 @@
       "type": "nodeGraph"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "description": "Sent by Exporter",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 9,
         "w": 5,
@@ -2171,22 +2269,22 @@
         "content": "\n \n## Prometheus Config\n\n`evaluation_interval:` 30s\n\n`scrape_interval:` 5s",
         "mode": "markdown"
       },
-      "pluginVersion": "9.1.0",
+      "pluginVersion": "11.3.0",
+      "title": "",
       "type": "text"
     }
   ],
-  "refresh": false,
-  "schemaVersion": 37,
-  "style": "dark",
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
         "allValue": ".*",
         "current": {
-          "selected": false,
-          "text": "0.70.0",
-          "value": "0.70.0"
+          "text": [],
+          "value": []
         },
         "datasource": {
           "type": "prometheus",
@@ -2205,8 +2303,6 @@
         },
         "refresh": 1,
         "regex": "/.*service_version=\"(.*)\".*/",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       }
     ]
@@ -2219,6 +2315,6 @@
   "timezone": "",
   "title": "Opentelemetry Collector Data Flow",
   "uid": "rl5_tea4k",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }

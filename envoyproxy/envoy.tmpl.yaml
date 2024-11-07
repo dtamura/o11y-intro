@@ -35,6 +35,8 @@ static_resources:
                       routes:
                         - match: { prefix: "/greeting" }
                           route: { cluster: java-demo-app }
+                        - match: { prefix: "/ping" }
+                          route: { cluster: golang-demo-app }
                         - match: { prefix: "/" }
                           route: { cluster: frontend }
                 http_filters:
@@ -84,6 +86,18 @@ static_resources:
                     socket_address:
                       address: java-demo-app
                       port_value: 8081
+    - name: golang-demo-app
+      type: STRICT_DNS
+      lb_policy: ROUND_ROBIN
+      load_assignment:
+        cluster_name: golang-demo-app
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: golang-demo-app
+                      port_value: 3000
     - name: frontend
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN

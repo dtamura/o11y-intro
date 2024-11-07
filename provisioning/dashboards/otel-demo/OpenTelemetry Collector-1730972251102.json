@@ -24,17 +24,12 @@
   "description": "Visualize OpenTelemetry (OTEL) collector metrics (tested with OTEL contrib v0.84.0)",
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "gnetId": 15983,
   "graphTooltip": 1,
+  "id": 10,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "$datasource"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -43,15 +38,6 @@
       },
       "id": 23,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "$datasource"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Receivers",
       "type": "row"
     },
@@ -73,6 +59,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -158,12 +145,12 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.3.5",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -198,7 +185,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Accepted: count/rate of metric points successfully pushed into the pipeline.\nRefused: count/rate of metric points that could not be pushed into the pipeline.",
       "fieldConfig": {
@@ -213,6 +200,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -298,7 +286,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.3.5",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -318,7 +306,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -353,6 +341,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -438,12 +427,12 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.3.5",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -477,10 +466,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "$datasource"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -489,22 +474,13 @@
       },
       "id": 34,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "$datasource"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Processors",
       "type": "row"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -519,6 +495,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -619,7 +596,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.3.5",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -640,7 +617,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -722,12 +699,12 @@
           "reverse": false
         }
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -762,6 +739,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -862,12 +840,12 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.3.5",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -902,10 +880,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "$datasource"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -914,22 +888,13 @@
       },
       "id": 25,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "$datasource"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Exporters",
       "type": "row"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Sent: count/rate of spans successfully sent to destination.\nEngueue: count/rate of spans failed to be added to the sending queue.",
       "fieldConfig": {
@@ -944,6 +909,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1029,7 +995,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.3.5",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1049,7 +1015,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -1085,7 +1051,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Sent: count/rate of metric points successfully sent to destination.\nEngueue: count/rate of metric points failed to be added to the sending queue.",
       "fieldConfig": {
@@ -1100,6 +1066,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1185,7 +1152,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.3.5",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1205,7 +1172,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -1241,7 +1208,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Sent: count/rate of log records successfully sent to destination.\nEngueue: count/rate of log records failed to be added to the sending queue.",
       "fieldConfig": {
@@ -1256,6 +1223,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1341,7 +1309,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.3.5",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1361,7 +1329,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -1397,7 +1365,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Current size of the retry queue (in batches)",
       "fieldConfig": {
@@ -1412,6 +1380,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1443,8 +1412,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1503,7 +1471,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Fixed capacity of the retry queue (in batches)",
       "fieldConfig": {
@@ -1518,6 +1486,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1549,8 +1518,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1608,10 +1576,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "$datasource"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1620,22 +1584,13 @@
       },
       "id": 21,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "$datasource"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Collector",
       "type": "row"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Total physical memory (resident set size)",
       "fieldConfig": {
@@ -1644,7 +1599,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -1658,7 +1612,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1682,8 +1635,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1810,7 +1762,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -1845,7 +1797,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Total bytes of memory obtained from the OS (see 'go doc runtime.MemStats.Sys')",
       "fieldConfig": {
@@ -1854,7 +1806,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -1868,7 +1819,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1892,8 +1842,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2020,7 +1969,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -2055,7 +2004,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Bytes of allocated heap objects (see 'go doc runtime.MemStats.HeapAlloc')",
       "fieldConfig": {
@@ -2064,7 +2013,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -2078,7 +2026,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -2102,8 +2049,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2230,7 +2176,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -2265,7 +2211,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Total CPU user and system time in percentage",
       "fieldConfig": {
@@ -2274,7 +2220,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -2288,7 +2233,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -2312,8 +2256,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2436,7 +2379,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -2472,7 +2415,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Number of service instances, which are reporting metrics",
       "fieldConfig": {
@@ -2481,7 +2424,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -2495,7 +2437,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -2519,8 +2460,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2581,7 +2521,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -2590,7 +2530,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -2604,7 +2543,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -2628,8 +2566,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2690,7 +2627,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -2712,8 +2649,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2745,7 +2681,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "datasource": {
@@ -2797,9 +2733,13 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Receivers -> Processor(s) -> Exporters (Node Graph panel is beta, so this panel may not show data correctly).",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 9,
         "w": 8,
@@ -2808,7 +2748,6 @@
       },
       "id": 58,
       "options": {
-        "edges": {},
         "nodes": {
           "mainStatUnit": "flops"
         }
@@ -2832,7 +2771,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -2877,6 +2816,10 @@
         "uid": "$datasource"
       },
       "description": "Receivers -> Processor(s) -> Exporters (Node Graph panel is beta, so this panel may not show data correctly).",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 9,
         "w": 8,
@@ -2885,7 +2828,6 @@
       },
       "id": 60,
       "options": {
-        "edges": {},
         "nodes": {
           "mainStatUnit": "none"
         }
@@ -2894,7 +2836,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -2951,9 +2893,13 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$datasource"
+        "uid": "prometheus"
       },
       "description": "Receivers -> Processor(s) -> Exporters (Node Graph panel is beta, so this panel may not show data correctly).",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 9,
         "w": 8,
@@ -2962,7 +2908,6 @@
       },
       "id": 61,
       "options": {
-        "edges": {},
         "nodes": {
           "mainStatUnit": "flops"
         }
@@ -2986,7 +2931,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -3026,12 +2971,10 @@
       "type": "nodeGraph"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "$datasource"
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
-      "editable": true,
-      "error": false,
       "gridPos": {
         "h": 3,
         "w": 24,
@@ -3048,22 +2991,14 @@
         "content": "<a href=\"http://www.monitoringartist.com\" target=\"_blank\" title=\"Dashboard maintained by Monitoring Artist - DevOps / Docker / Kubernetes / AWS ECS / Google GCP / Zabbix / Zenoss / Terraform / Monitoring\"><img src=\"https://monitoringartist.github.io/monitoring-artist-logo-grafana.png\" height=\"30px\" /></a> | \n<a target=\"_blank\" href=\"https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/troubleshooting.md#metrics\">OTEL collector troubleshooting (how to enable telemetry metrics)</a> | \n<a target=\"_blank\" href=\"https://opentelemetry.io/docs/collector/scaling/\">Scaling the Collector (metrics to watch)</a> | \n<a target=\"_blank\" href=\"https://grafana.com/grafana/dashboards/15983-opentelemetry-collector/\">Installed from Grafana.com dashboards</a>",
         "mode": "html"
       },
-      "pluginVersion": "11.1.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "$datasource"
-          },
-          "refId": "A"
-        }
-      ],
+      "pluginVersion": "10.0.3",
       "title": "Documentation",
       "type": "text"
     }
   ],
+  "preload": false,
   "refresh": "10s",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [
     "opentelemetry",
     "monitoring"
@@ -3072,38 +3007,30 @@
     "list": [
       {
         "current": {
-          "selected": false,
           "text": "Prometheus",
           "value": "prometheus"
         },
-        "hide": 0,
         "includeAll": false,
         "label": "Datasource",
-        "multi": false,
         "name": "datasource",
         "options": [],
         "query": "prometheus",
-        "queryValue": "",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "type": "datasource"
       },
       {
         "current": {
-          "selected": false,
-          "text": "otel-collector",
-          "value": "otel-collector"
+          "text": "",
+          "value": ""
         },
         "datasource": {
           "type": "prometheus",
           "uid": "$datasource"
         },
         "definition": "label_values(otelcol_process_uptime, job)",
-        "hide": 0,
         "includeAll": false,
         "label": "Job",
-        "multi": false,
         "name": "job",
         "options": [],
         "query": {
@@ -3112,7 +3039,6 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
         "type": "query"
       },
@@ -3121,19 +3047,12 @@
         "auto_count": 300,
         "auto_min": "10s",
         "current": {
-          "selected": false,
-          "text": "auto",
-          "value": "$__auto_interval_minstep"
+          "text": "$__auto",
+          "value": "$__auto"
         },
-        "hide": 0,
         "label": "Min step",
         "name": "minstep",
         "options": [
-          {
-            "selected": true,
-            "text": "auto",
-            "value": "$__auto_interval_minstep"
-          },
           {
             "selected": false,
             "text": "10s",
@@ -3156,21 +3075,16 @@
           }
         ],
         "query": "10s,30s,1m,5m",
-        "queryValue": "",
         "refresh": 2,
-        "skipUrlSync": false,
         "type": "interval"
       },
       {
         "current": {
-          "selected": false,
-          "text": "Rate",
+          "text": "rate",
           "value": "rate"
         },
-        "hide": 0,
         "includeAll": false,
         "label": "Base metric",
-        "multi": false,
         "name": "metric",
         "options": [
           {
@@ -3185,26 +3099,21 @@
           }
         ],
         "query": "Rate : rate, Count : increase",
-        "queryValue": "",
-        "skipUrlSync": false,
         "type": "custom"
       },
       {
         "allValue": ".*",
         "current": {
-          "selected": false,
           "text": "All",
           "value": "$__all"
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "$datasource"
+          "uid": "prometheus"
         },
         "definition": "label_values(receiver)",
-        "hide": 0,
         "includeAll": true,
         "label": "Receiver",
-        "multi": false,
         "name": "receiver",
         "options": [],
         "query": {
@@ -3213,16 +3122,11 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "current": {
-          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -3231,10 +3135,8 @@
           "uid": "$datasource"
         },
         "definition": "label_values(processor)",
-        "hide": 0,
         "includeAll": true,
         "label": "Processor",
-        "multi": false,
         "name": "processor",
         "options": [],
         "query": {
@@ -3243,29 +3145,22 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "allValue": ".*",
         "current": {
-          "selected": false,
           "text": "All",
           "value": "$__all"
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "$datasource"
+          "uid": "prometheus"
         },
         "definition": "label_values(exporter)",
-        "hide": 0,
         "includeAll": true,
         "label": "Exporter",
-        "multi": false,
         "name": "exporter",
         "options": [],
         "query": {
@@ -3274,24 +3169,17 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "current": {
-          "selected": false,
-          "text": "None (basic metrics)",
+          "text": "",
           "value": ""
         },
         "description": "Detailed metrics must be configured in the collector configuration. They add grouping by transport protocol (http/grpc) for receivers. ",
-        "hide": 0,
         "includeAll": false,
         "label": "Additional groupping",
-        "multi": false,
         "name": "grouping",
         "options": [
           {
@@ -3311,41 +3199,15 @@
           }
         ],
         "query": "None (basic metrics) :  , By transport (detailed metrics) : \\,transport, By service instance id : \\,service_instance_id",
-        "queryValue": "",
-        "skipUrlSync": false,
         "type": "custom"
       }
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
-  "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
-  },
+  "timepicker": {},
   "timezone": "",
   "title": "OpenTelemetry Collector",
   "uid": "BKf2sowmj",

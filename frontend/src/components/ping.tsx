@@ -15,7 +15,7 @@ export default function Ping() {
     setMsg(Object("connecting..."));
     setLoading(true);
     axios
-      .get("http://localhost:8000/ping", {
+      .get("/ping", {
         timeout: 5000,
         headers: {
           "Content-Type": "application/json",
