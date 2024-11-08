@@ -1,18 +1,17 @@
 x-default-logging: &logging
-  # driver: "json-file"
+  driver: "json-file"
   # options:
   #   max-size: "5m"
   #   max-file: "2"
-  driver: loki
-  options:
-    loki-url: http://127.0.0.1:3100/loki/api/v1/push
+  # driver: loki
+  # options:
+  #   loki-url: http://127.0.0.1:3100/loki/api/v1/push
 
 services:
   ######
   ## App
   #######
   java-demo-app:
-    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/java-demo-app:latest
     build: ./java-demo-app
     environment:
       - OTEL_SERVICE_NAME=java-demo-app
@@ -39,7 +38,6 @@ services:
     profiles: [ "", "app" ]
 
   frontend:
-    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/frontend:latest
     build: ./frontend
     environment:
       - NODE_ENV=production
@@ -49,7 +47,6 @@ services:
     logging: *logging
 
   envoyproxy:
-    image: asia-northeast1-docker.pkg.dev/sre-rc/public-handson-containers/o11y-intro/envoyproxy:latest
     build: ./envoyproxy
     environment:
       - OTEL_COLLECTOR_HOST=otel-collector
@@ -134,7 +131,7 @@ services:
   # Loki
   ########################
   loki:
-    image: grafana/loki:2.9.10
+    image: grafana/loki:3.2.1
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/config.yaml
@@ -243,6 +240,8 @@ services:
       - "--config=/etc/otelcol-config.yml"
     volumes:
       - ./config/otelcol-config.yml:/etc/otelcol-config.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker:/var/lib/docker:ro
     ports:
       - "4317" # OTLP over gRPC receiver
       - "4318" # OTLP over HTTP receiver
@@ -252,6 +251,8 @@ services:
       - loki
     logging: *logging
     restart: unless-stopped
+    privileged: true
+    user: 0:0
 
 volumes:
   grafana-data:

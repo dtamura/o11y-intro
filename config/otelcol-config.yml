@@ -13,9 +13,21 @@ receivers:
             - "http://*"
             - "https://*"
 
+  filelog:
+    include_file_path: true
+    include:
+      - /var/log/pods/*/*/*.log
+      - /var/lib/docker/containers/*/*-json.log
+    operators:
+      - id: container-parser
+        type: container
+        format: docker
+        add_metadata_from_filepath: false
+
 exporters:
   debug:
     verbosity: detailed
+
   otlp/tempo:
     endpoint: "tempo:4317"
     tls:
@@ -23,6 +35,11 @@ exporters:
 
   otlphttp/prometheus:
     endpoint: "http://prometheus:9090/api/v1/otlp"
+    tls:
+      insecure: true
+
+  otlphttp/loki:
+    endpoint: http://loki:3100/otlp
     tls:
       insecure: true
 
@@ -38,7 +55,6 @@ connectors:
     exemplars:
       enabled: true
       max_per_data_point: 10000
-
 
 service:
   telemetry:
@@ -56,6 +72,6 @@ service:
       processors: [batch, resourcedetection]
       exporters: [otlphttp/prometheus]
     logs:
-      receivers: [otlp]
+      receivers: [otlp, filelog]
       processors: [batch, resourcedetection]
-      exporters: [debug]
+      exporters: [otlphttp/loki]
