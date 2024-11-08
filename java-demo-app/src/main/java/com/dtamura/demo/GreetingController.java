@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 // TODO (Trace) import文を追加ここから
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class GreetingController {
         // TODO スパンの開始コードを追加
         Context extractedContext = this.openTelemetry.getPropagators().getTextMapPropagator()
                 .extract(Context.current(), headers, this.getter);
-        Span span = tracer.spanBuilder("greeting").setParent(extractedContext).startSpan();
+        Span span = tracer.spanBuilder("greeting").setParent(extractedContext).setSpanKind(SpanKind.SERVER).startSpan();
 
         span.setAttribute("name", name);
 
@@ -80,8 +81,9 @@ public class GreetingController {
             hoge();
         } finally {
             // TODO スパンの終了コードを追加
-            span.setAttribute(io.opentelemetry.semconv.SemanticAttributes.HTTP_RESPONSE_STATUS_CODE, 200);
-            span.setAttribute(io.opentelemetry.semconv.SemanticAttributes.HTTP_REQUEST_METHOD, "GET");
+            span.setAttribute(io.opentelemetry.semconv.HttpAttributes.HTTP_RESPONSE_STATUS_CODE, 200);
+            span.setAttribute(io.opentelemetry.semconv.HttpAttributes.HTTP_REQUEST_METHOD, "GET");
+            span.setAttribute(io.opentelemetry.semconv.HttpAttributes.HTTP_ROUTE, "/greeting");
 
             span.end();
         }

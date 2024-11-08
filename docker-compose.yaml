@@ -27,7 +27,7 @@ services:
   golang-demo-app:
     build: ./golang-demo-app
     environment:
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otelcol:4318
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
       - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=prod,service.version=0.0.1
       - OTEL_SERVICE_NAME=golang-demo-app
       - PING_TARGET_URL=http://java-demo-app:8081

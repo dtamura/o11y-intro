@@ -22,15 +22,15 @@ exporters:
       insecure: true
 
   otlphttp/prometheus:
-      endpoint: "http://prometheus:9090/api/v1/otlp"
-      tls:
-        insecure: true
+    endpoint: "http://prometheus:9090/api/v1/otlp"
+    tls:
+      insecure: true
 
 processors:
   batch:
 
   resourcedetection:
-    detectors: [env,docker]
+    detectors: [env, docker]
     timeout: 10s
 
 connectors:

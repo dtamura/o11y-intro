@@ -34,8 +34,9 @@ public class DemoApplication {
 
         // アプリケーションに関する属性情報をタグ付けする
         Resource resource = Resource.getDefault().toBuilder()
-                .put(ResourceAttributes.SERVICE_NAME, DemoApplication.class.getName())
-                .put(ResourceAttributes.SERVICE_VERSION, "0.1.0").build();
+                .put(io.opentelemetry.semconv.ServiceAttributes.SERVICE_NAME, DemoApplication.class.getName())
+                .put(io.opentelemetry.semconv.ServiceAttributes.SERVICE_VERSION, "0.1.0")
+                .build();
 
         // OpenTelemetry CollectorにgRPCで送信するためのエクスポーター
         OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder().setEndpoint("http://otel-collector:4317")
