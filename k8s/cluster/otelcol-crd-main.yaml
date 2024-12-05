@@ -64,7 +64,7 @@ spec:
         tls:
           insecure: true
       otlphttp/prometheus:
-        endpoint: http://prometheus-stack-kube-prom-prometheus.prometheus:9090/api/v1/otlp
+        endpoint: http://prometheus-kube-prometheus-prometheus.prometheus:9090/api/v1/otlp
         tls:
           insecure: true
 
