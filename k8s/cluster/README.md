@@ -1,7 +1,7 @@
 
 
 ```sh
-kind create cluster --config kind-config.yaml
+kind create cluster --config config.yaml
 
 ```
 
@@ -22,7 +22,9 @@ helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --v
   --set "prometheus.prometheusSpec.enableFeatures={exemplar-storage,otlp-write-receiver}" \
   --set prometheus.prometheusSpec.enableRemoteWriteReceiver=true \
   --set prometheus.prometheusSpec.logLevel=info \
-  --set prometheus.prometheusSpec.remoteWriteDashboards=true
+  --set prometheus.prometheusSpec.remoteWriteDashboards=true \
+  --set "prometheus.prometheusSpec.additionalScrapeConfigs[0].job_name=otelcol" \
+  --set "prometheus.prometheusSpec.additionalScrapeConfigs[0].static_configs[0].targets={collector-with-ta-collector-monitoring.otelcol.svc:8888}" 
 
 
 # Cert-Manager
@@ -41,6 +43,34 @@ helm upgrade --install loki grafana/loki --version 6.19.0 --create-namespace -n 
 
 
 # Grafana 
+kubectl create configmap dashboards -n grafana \
+  --from-file=dashboards/alertmanager-overview.json \
+  --from-file=dashboards/apiserver.json \
+  --from-file=dashboards/cluster-total.json \
+  --from-file=dashboards/grafana-overview.json \
+  --from-file=dashboards/k8s-coredns.json \
+  --from-file=dashboards/k8s-resources-cluster.json \
+  --from-file=dashboards/k8s-resources-multicluster.json \
+  --from-file=dashboards/k8s-resources-namespace.json \
+  --from-file=dashboards/k8s-resources-node.json \
+  --from-file=dashboards/k8s-resources-pod.json \
+  --from-file=dashboards/k8s-resources-workload.json \
+  --from-file=dashboards/k8s-resources-workloads-namespace.json \
+  --from-file=dashboards/kubelet.json \
+  --from-file=dashboards/namespace-by-pod.json \
+  --from-file=dashboards/namespace-by-workload.json \
+  --from-file=dashboards/node-cluster-rsrc-use.json \
+  --from-file=dashboards/node-rsrc-use.json \
+  --from-file=dashboards/nodes-aix.json \
+  --from-file=dashboards/nodes-darwin.json \
+  --from-file=dashboards/nodes.json \
+  --from-file=dashboards/persistentvolumesusage.json \
+  --from-file=dashboards/pod-total.json \
+  --from-file=dashboards/prometheus.json \
+  --from-file=dashboards/proxy.json \
+  --from-file=dashboards/scheduler.json \
+  --from-file=dashboards/workload-total.json
+
 helm upgrade --install grafana grafana/grafana --version 8.5.12 --create-namespace -n grafana -f grafana-values.yaml \
   --set persistence.enabled=true \
   --set "plugins={grafana-opensearch-datasource}" \
@@ -61,7 +91,7 @@ helm upgrade --install tempo grafana/tempo-distributed --version 1.21.0 --create
     --set "global_overrides.defaults.metrics_generator.processors={service-graphs,span-metrics}" \
     --set prometheusRule.enabled=true \
     --set prometheusRule.namespace=prometheus \
-    --set prometheusRule.labels.release=prometheus-stack
+    --set prometheusRule.labels.release=prometheus
 
 
 
@@ -79,5 +109,6 @@ helm upgrade --install otel-demo open-telemetry/opentelemetry-demo --version 0.3
 
 ```sh
 kubectl port-forward svc/grafana -n grafana 3000:80
+kubectl port-forward svc/prometheus-kube-prometheus-prometheus -n prometheus 9090:9090
 kubectl --namespace otel-demo port-forward svc/otel-demo-frontendproxy 8080:8080
 ```

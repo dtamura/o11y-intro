@@ -29,14 +29,14 @@ datasources:
         jsonData:
           maxLines: 1000
           derivedFields:
-            - datasourceUid: 'tempo'
+            - datasourceUid: "tempo"
               matcherRegex: '"(?:trace_id|traceID|^traceparent)":"(\w+)"'
-              name: 'TraceID'
-              url: '$${__value.raw}'
-            - datasourceUid: 'tempo'
+              name: "TraceID"
+              url: "$${__value.raw}"
+            - datasourceUid: "tempo"
               matcherRegex: 'trace_id=(\w+)'
-              name: 'trace_id'
-              url: '$${__value.raw}'
+              name: "trace_id"
+              url: "$${__value.raw}"
             - datasourceUid: tempo
               matcherRegex: '"traceparent":"[\d]{2}-([\da-f]{32})-[\da-f]{16}-[\da]{2}"'
               name: TraceIDInTraceparent
@@ -68,22 +68,22 @@ datasources:
           #   spanEndTimeShift: '-1h'
           tracesToLogsV2:
             datasourceUid: loki
-            spanStartTimeShift: '-1h'
-            spanEndTimeShift: '1h'
+            spanStartTimeShift: "-1h"
+            spanEndTimeShift: "1h"
             # tags: ['job', 'instance', 'pod', 'namespace']
-            tags: [{ key: 'service.name', value: 'service' }]
+            tags: [{ key: "service.name", value: "service" }]
             filterByTraceID: true
             filterBySpanID: true
             # customQuery: true
             # query: 'method="$${__span.tags.method}"'
           tracesToMetrics:
-            datasourceUid: 'prometheus'
-            spanStartTimeShift: '1h'
-            spanEndTimeShift: '-1h'
-            tags: [{ key: 'service.name', value: 'service' }, { key: 'job' }]
+            datasourceUid: "prometheus"
+            spanStartTimeShift: "1h"
+            spanEndTimeShift: "-1h"
+            tags: [{ key: "service.name", value: "service" }, { key: "job" }]
             queries:
-              - name: 'Sample query'
-                query: 'sum(rate(traces_spanmetrics_latency_bucket{$$__tags}[5m]))'
+              - name: "Sample query"
+                query: "sum(rate(traces_spanmetrics_latency_bucket{$$__tags}[5m]))"
 
       - name: Pyroscope
         type: grafana-pyroscope-datasource
@@ -91,7 +91,7 @@ datasources:
         url: http://pyroscope.pyroscope:4040
       - name: OpenSearch
         type: grafana-opensearch-datasource
-        url: 'http://otel-demo-opensearch.otel-demo:9200/'
+        url: "http://otel-demo-opensearch.otel-demo:9200/"
         access: proxy
         editable: true
         isDefault: false
@@ -122,3 +122,18 @@ grafana.ini:
     enabled: true
     org_name: "Main Org."
     org_role: Admin
+
+dashboardsConfigMaps:
+  default: dashboards
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: "default"
+        orgId: 1
+        folder: ""
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
