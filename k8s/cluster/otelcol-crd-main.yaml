@@ -1,0 +1,299 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: collector-with-ta
+spec:
+  mode: statefulset
+  image: otel/opentelemetry-collector-contrib:0.114.0
+  serviceAccount: otelcol-sa
+  targetAllocator:
+    enabled: true
+    serviceAccount: otelcol-sa
+    prometheusCR:
+      enabled: true
+      scrapeInterval: 5s
+      serviceMonitorSelector:
+        matchLabels:
+          release: prometheus-stack
+  env:
+    - name: MY_POD_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.podIP
+    - name: K8S_NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+  config:
+    receivers:
+      prometheus:
+        config:
+          scrape_configs:
+            - job_name: "otel-collector"
+              scrape_interval: 5s
+              static_configs:
+                - targets:
+                    - localhost:8888
+      otlp:
+        protocols:
+          grpc:
+            endpoint: ${env:MY_POD_IP}:4317
+          http:
+            endpoint: ${env:MY_POD_IP}:4318
+    connectors:
+      spanmetrics:
+        exemplars:
+          enabled: true
+          max_per_data_point: 10000
+
+    exporters:
+      debug:
+        verbosity: basic
+      googlecloud: {}
+      googlemanagedprometheus: {}
+      otlp/dash0:
+        endpoint: ingress.eu-west-1.aws.dash0.com:4317
+        headers:
+          Authorization: auth_NK24XFTJ8K2Yd4V1AB1De4iypaAyEfh5
+      otlp/tempo:
+        endpoint: tempo-distributor.grafana-tempo:4317
+        tls:
+          insecure: true
+      otlphttp/loki:
+        endpoint: http://loki-gateway.loki/otlp
+        tls:
+          insecure: true
+      otlphttp/prometheus:
+        endpoint: http://prometheus-stack-kube-prom-prometheus.prometheus:9090/api/v1/otlp
+        tls:
+          insecure: true
+
+    processors:
+      batch: {}
+      k8sattributes:
+        extract:
+          annotations:
+            - from: pod
+              key_regex: (.*)
+              tag_name: $$1
+          labels:
+            - from: pod
+              key_regex: (.*)
+              tag_name: $$1
+          metadata:
+            - k8s.namespace.name
+            - k8s.deployment.name
+            - k8s.statefulset.name
+            - k8s.daemonset.name
+            - k8s.cronjob.name
+            - k8s.job.name
+            - k8s.node.name
+            - k8s.pod.name
+            - k8s.pod.uid
+            - k8s.pod.start_time
+        passthrough: false
+        pod_association:
+          - sources:
+              - from: resource_attribute
+                name: k8s.pod.ip
+          - sources:
+              - from: resource_attribute
+                name: k8s.pod.uid
+          - sources:
+              - from: connection
+      resource:
+        attributes:
+          - action: insert
+            from_attribute: k8s.pod.uid
+            key: service.instance.id
+      resourcedetection:
+        detectors:
+          # note: later detectors override attributes provided by earlier detectors
+          - system
+          # - ec2
+          # - eks
+          # - ecs
+          - gcp
+          # - azure
+          # - aks
+          - k8snode # require env K8S_NODE_NAME 
+        system:
+          resource_attributes:
+            host.name:
+              # Do not collect host.name via system resource detector, as this would result in the podname being set as the
+              # hostname, see https://kubernetes.io/docs/concepts/containers/container-environment/#container-information.
+              enabled: false
+        timeout: 10s
+
+    service:
+      telemetry:
+        metrics:
+          level: detailed
+          readers:
+            - pull:
+                exporter:
+                  prometheus:
+                    host: 0.0.0.0
+                    port: 8888
+      pipelines:
+        metrics/prom:
+          receivers:
+            - prometheus
+          processors:
+            - k8sattributes
+            - resourcedetection
+            - resource
+            - batch
+          exporters:
+            - otlp/dash0
+
+        metrics/otlp:
+          receivers:
+            - spanmetrics
+            - otlp
+          processors:
+            - k8sattributes
+            - resourcedetection
+            - resource
+            - batch
+          exporters:
+            - otlphttp/prometheus
+            - otlp/dash0
+            # - prometheus
+        traces:
+          receivers:
+            - otlp
+          processors:
+            - k8sattributes
+            - resource
+            - resourcedetection
+            - batch
+          exporters:
+            - spanmetrics
+            - otlp/tempo
+            - otlp/dash0
+        logs:
+          receivers:
+            - otlp
+          processors:
+            - k8sattributes
+            - resource
+            - resourcedetection
+            - batch
+          exporters:
+            - otlphttp/loki
+            - otlp/dash0
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: otelcol-sa
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: otelcol-sa
+rules:
+  - nonResourceURLs:
+      - "/metrics"
+    verbs:
+      - get
+  - apiGroups:
+      - "discovery.k8s.io"
+    resources:
+      - endpointslices
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - "networking.k8s.io"
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - monitoring.coreos.com
+    resources:
+      - podmonitors
+      - servicemonitors
+      - scrapeconfigs
+      - probes
+    verbs:
+      - "*"
+  - apiGroups:
+      - ""
+    resources:
+      - events
+      - namespaces
+      - namespaces/status
+      - nodes
+      - nodes/spec
+      - pods
+      - pods/status
+      - replicationcontrollers
+      - replicationcontrollers/status
+      - resourcequotas
+      - services
+      - endpoints
+      - nodes/metrics
+      - configmaps
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - daemonsets
+      - deployments
+      - replicasets
+      - statefulsets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - daemonsets
+      - deployments
+      - replicasets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+      - cronjobs
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - autoscaling
+    resources:
+      - horizontalpodautoscalers
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: otelcol-sa
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: otelcol-sa
+subjects:
+  - kind: ServiceAccount
+    name: otelcol-sa
+    namespace: otelcol
+---
+

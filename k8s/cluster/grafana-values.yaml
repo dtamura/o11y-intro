@@ -1,0 +1,124 @@
+## Configure grafana datasources
+## ref: http://docs.grafana.org/administration/provisioning/#datasources
+##
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        uid: prometheus
+        url: http://prometheus-kube-prometheus-prometheus.prometheus:9090
+        access: proxy
+        isDefault: true
+        basicAuth: false
+        version: 1
+        editable: false
+        jsonData:
+          httpMethod: GET
+          exemplarTraceIdDestinations:
+            - datasourceUid: tempo
+              name: trace_id
+      - name: Loki
+        type: loki
+        uid: loki
+        access: proxy
+        url: http://loki-gateway.loki
+        basicAuth: false
+        isDefault: false
+        jsonData:
+          maxLines: 1000
+          derivedFields:
+            - datasourceUid: 'tempo'
+              matcherRegex: '"(?:trace_id|traceID|^traceparent)":"(\w+)"'
+              name: 'TraceID'
+              url: '$${__value.raw}'
+            - datasourceUid: 'tempo'
+              matcherRegex: 'trace_id=(\w+)'
+              name: 'trace_id'
+              url: '$${__value.raw}'
+            - datasourceUid: tempo
+              matcherRegex: '"traceparent":"[\d]{2}-([\da-f]{32})-[\da-f]{16}-[\da]{2}"'
+              name: TraceIDInTraceparent
+              url: $${__value.raw}
+
+      - name: Tempo
+        type: tempo
+        uid: tempo
+        access: proxy
+        orgId: 1
+        url: http://tempo-query-frontend.grafana-tempo:3100
+        basicAuth: false
+        isDefault: false
+        version: 1
+        editable: false
+        apiVersion: 1
+        jsonData:
+          serviceMap:
+            datasourceUid: prometheus
+          nodeGraph:
+            enabled: true
+          search:
+            hide: false
+          # streamingEnabled:
+          #   search: true
+          # traceQuery:
+          #   timeShiftEnabled: true
+          #   spanStartTimeShift: '1h'
+          #   spanEndTimeShift: '-1h'
+          tracesToLogsV2:
+            datasourceUid: loki
+            spanStartTimeShift: '-1h'
+            spanEndTimeShift: '1h'
+            # tags: ['job', 'instance', 'pod', 'namespace']
+            tags: [{ key: 'service.name', value: 'service' }]
+            filterByTraceID: true
+            filterBySpanID: true
+            # customQuery: true
+            # query: 'method="$${__span.tags.method}"'
+          tracesToMetrics:
+            datasourceUid: 'prometheus'
+            spanStartTimeShift: '1h'
+            spanEndTimeShift: '-1h'
+            tags: [{ key: 'service.name', value: 'service' }, { key: 'job' }]
+            queries:
+              - name: 'Sample query'
+                query: 'sum(rate(traces_spanmetrics_latency_bucket{$$__tags}[5m]))'
+
+      - name: Pyroscope
+        type: grafana-pyroscope-datasource
+        uid: pyroscope
+        url: http://pyroscope.pyroscope:4040
+      - name: OpenSearch
+        type: grafana-opensearch-datasource
+        url: 'http://otel-demo-opensearch.otel-demo:9200/'
+        access: proxy
+        editable: true
+        isDefault: false
+        jsonData:
+          database: otel
+          flavor: opensearch
+          logLevelField: severity
+          logMessageField: body
+          pplEnabled: true
+          timeField: observedTimestamp
+          version: 2.17.0
+    #  deleteDatasources: []
+    #  - name: Prometheus
+
+## Configure grafana alerting (can be templated)
+## ref: http://docs.grafana.org/administration/provisioning/#alerting
+##
+## Grafana's primary configuration
+## NOTE: values in map will be converted to ini format
+## ref: http://docs.grafana.org/installation/configuration/
+##
+grafana.ini:
+  users:
+    default_theme: light
+  auth:
+    disable_login_form: true
+  auth.anonymous:
+    enabled: true
+    org_name: "Main Org."
+    org_role: Admin
