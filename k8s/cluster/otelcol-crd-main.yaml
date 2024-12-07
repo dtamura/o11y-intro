@@ -52,7 +52,7 @@ spec:
       googlecloud: {}
       googlemanagedprometheus: {}
       otlp/tempo:
-        endpoint: tempo-distributor.grafana-tempo:4317
+        endpoint: tempo.grafana-tempo:4317
         tls:
           insecure: true
       otlphttp/loki:

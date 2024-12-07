@@ -47,11 +47,11 @@ datasources:
         uid: tempo
         access: proxy
         orgId: 1
-        url: http://tempo-query-frontend.grafana-tempo:3100
+        url: http://tempo.grafana-tempo:3100
         basicAuth: false
         isDefault: false
         version: 1
-        editable: false
+        editable: true
         apiVersion: 1
         jsonData:
           serviceMap:

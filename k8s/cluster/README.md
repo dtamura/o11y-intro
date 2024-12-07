@@ -78,20 +78,14 @@ helm upgrade --install grafana grafana/grafana --version 8.5.12 --create-namespa
 
 
 # Grafana Tempo
-helm upgrade --install tempo grafana/tempo-distributed --version 1.21.0 --create-namespace -n grafana-tempo \
-    --set ingester.replicas=2 \
-    --set ingester.config.replication_factor=2 \
-    --set metricsGenerator.enabled=true \
-    --set "metricsGenerator.config.storage.remote_write[0].url=http://prometheus-kube-prometheus-prometheus.prometheus.svc:9090/api/v1/write" \
-    --set compactor.config.compaction.block_retention=8760h \
-    --set traces.otlp.grpc.enabled=true \
-    --set server.logLevel=info \
-    --set metaMonitoring.serviceMonitor.enabled=true \
-    --set metaMonitoring.serviceMonitor.labels.release=prometheus-stack \
-    --set "global_overrides.defaults.metrics_generator.processors={service-graphs,span-metrics}" \
-    --set prometheusRule.enabled=true \
-    --set prometheusRule.namespace=prometheus \
-    --set prometheusRule.labels.release=prometheus
+helm upgrade --install tempo grafana/tempo --version 1.14.0 --create-namespace -n grafana-tempo \
+    --set tempo.reportingEnabled=false \
+    --set tempo.metricsGenerator.enabled=true \
+    --set "tempo.metricsGenerator.config.storage.remote_write[0].url=http://prometheus-kube-prometheus-prometheus.prometheus.svc:9090/api/v1/write" \
+    --set tempo.retention=8760h \
+    --set persistence.enabled=true \
+    --set serviceMonitor.enabled=true \
+    --set serviceMonitor.addtionalLabels.release=prometheus-stack
 
 
 
@@ -108,7 +102,7 @@ helm upgrade --install otel-demo open-telemetry/opentelemetry-demo --version 0.3
 
 
 ```sh
-kubectl port-forward svc/grafana -n grafana 3000:80
-kubectl port-forward svc/prometheus-kube-prometheus-prometheus -n prometheus 9090:9090
-kubectl --namespace otel-demo port-forward svc/otel-demo-frontendproxy 8080:8080
+kubectl port-forward svc/grafana -n grafana 3000:80 &
+kubectl port-forward svc/prometheus-kube-prometheus-prometheus -n prometheus 9090:9090 &
+kubectl --namespace otel-demo port-forward svc/otel-demo-frontendproxy 8080:8080 &
 ```
